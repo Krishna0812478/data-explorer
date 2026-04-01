@@ -1,93 +1,50 @@
-import { useState, useEffect } from 'react';
-import './App.css';
+// src/App.jsx
+import { useState } from 'react';
+import { useProducts } from './hooks/useProducts';
+import ProductCard from './components/ProductCard';
+import SearchBar from './components/SearchBar';
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const { products, loading, error } = useProducts();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch products from DummyJSON API
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch('https://dummyjson.com/products');
-        if (!res.ok) throw new Error('Failed to fetch products');
-        const data = await res.json();
-        setProducts(data.products);
-        setError('');
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
-
-  // Filter products based on search input
+  // Filter Logic
   const filteredProducts = products.filter((p) =>
-    p.title.toLowerCase().includes(search.toLowerCase())
+    p.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  if (error) return <div className="text-red-500 text-center mt-10">Error: {error}</div>;
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 p-4">
-      <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
-        Fake Store Products
-      </h1>
+    <div className="min-h-screen bg-slate-900 text-white p-4 md:p-8">
+      <header className="text-center mb-10">
+        <h1 className="text-4xl font-bold mb-2">🛍️ Product Explorer</h1>
+        <p className="text-slate-400 text-lg">Search and explore products easily</p>
+      </header>
 
-      {/* Search bar */}
-      <div className="flex justify-center mb-6">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="border border-gray-300 dark:border-gray-600 rounded px-4 py-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+      {/* Search Bar Component */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      {/* Loading spinner */}
-      {loading && (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-purple-500"></div>
+      {/* Loading State */}
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="bg-slate-800 h-64 rounded-xl animate-pulse"></div>
+          ))}
+        </div>
+      ) : (
+        /* Product Grid */
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       )}
 
-      {/* Error message */}
-      {error && <p className="text-red-500 text-center font-semibold">{error}</p>}
-
-      {/* Products grid */}
-      {!loading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 flex flex-col items-center hover:shadow-lg transition-shadow duration-300 bg-gray-50 dark:bg-gray-800"
-              >
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="h-40 object-contain mb-4"
-                />
-                <h2 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-center">
-                  {product.title}
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-2 text-center">
-                  ${product.price}
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-                  {product.category}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
-              No products found.
-            </p>
-          )}
+      {/* Empty State */}
+      {!loading && filteredProducts.length === 0 && (
+        <div className="text-center py-20 text-slate-500 text-xl">
+          No products found for "{searchQuery}"
         </div>
       )}
     </div>
