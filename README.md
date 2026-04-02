@@ -1,15 +1,15 @@
 
-
-# 🛒 ProStore - Premium Interactive Product Explorer
+# ProStore - Premium Interactive Product Explorer
 
 A high-performance, modern **React.js** application designed for a seamless e-commerce browsing experience. Built with a focus on clean architecture, glassmorphic UI, and real-time data manipulation.
 
 ---
 
-## Live Demo & Walkthrough
+##  Live Demo & Walkthrough
 ** Live App:** [https://data-explorer-five.vercel.app](https://data-explorer-five.vercel.app)  
-** Video Demo:** [Link to Video Demo]
 
+### Project Walkthrough
+Watch the live demonstration of the ProStore Dashboard:[https://drive.google.com/file/d/17UELPNAIKA1jqIf1WiaohdIyBb29HCkk/view?usp=sharing](https://drive.google.com/file/d/17UELPNAIKA1jqIf1WiaohdIyBb29HCkk/view?usp=sharing)
 ---
 
 ## Key Features (The "Pro" Edge)
@@ -22,7 +22,7 @@ A high-performance, modern **React.js** application designed for a seamless e-co
     * **Stock Status:** Instant visibility of inventory levels (In Stock / Out of Stock).
 * ** Interactive UX:** * **Add to Cart Logic:** State-driven feedback (Success/Added states) on user interaction.
     * **Quick View:** Professional "Eye" icon for future modal integration.
-* ** Modern Styling:** Built with **Tailwind CSS v4**, utilizing custom animations, gradients, and a sleek dark-mode aesthetic.
+* **Modern Styling:** Built with **Tailwind CSS v4**, utilizing custom animations, gradients, and a sleek dark-mode aesthetic.
 
 ---
 
@@ -51,18 +51,22 @@ src/
 
 ## Setup & Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/Krishna0812478/data-explorer.git](https://github.com/Krishna0812478/data-explorer.git)
-    ```
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Start Dev Server:**
-    ```bash
-    npm run dev
-    ```
+Follow these steps to run the project locally:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Krishna0812478/data-explorer.git
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start Dev Server:**
+   ```bash
+   npm run dev
+   ```
 
 ---
 
@@ -77,5 +81,6 @@ src/
 ## Author
 **Krishna**
 * **Role:** Aspiring Frontend Developer
-* **GitHub:** [@Krishna0812478](https://github.com/Krishna0812478)
+* **GitHub:** (https://github.com/Krishna0812478)
+
 ---
