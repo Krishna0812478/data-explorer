@@ -1,7 +1,6 @@
-// src/hooks/useProducts.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export const useProducts = () => {
+const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,9 +8,10 @@ export const useProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        setLoading(true);
-        const response = await fetch('https://dummyjson.com/products');
-        if (!response.ok) throw new Error('Something went wrong!');
+        const response = await fetch("https://dummyjson.com/products");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
         const data = await response.json();
         setProducts(data.products);
       } catch (err) {
@@ -26,3 +26,6 @@ export const useProducts = () => {
 
   return { products, loading, error };
 };
+
+// ⚠️ YE LINE SABSE IMPORTANT HAI:
+export default useProducts;

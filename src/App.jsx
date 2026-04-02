@@ -1,130 +1,150 @@
-import React, { useState } from 'react';
-import { useProducts } from './hooks/useProducts'; 
-import ProductCard from './components/ProductCard';
-import SearchBar from './components/SearchBar';
+import React, { useState } from "react";
+import useProducts from "./hooks/useProducts";
 
-function App() {
+const App = () => {
   const { products, loading, error } = useProducts();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('default');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("none");
 
-  // 1. Filtering Logic
-  let filteredProducts = products ? products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  ) : [];
+  // --- Logic: Search and Sort ---
+  const filteredProducts = (products || [])
+    .filter((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortOrder === "low") return a.price - b.price;
+      if (sortOrder === "high") return b.price - a.price;
+      return 0;
+    });
 
-  // 2. Sorting Logic
-  if (sortBy === 'lowToHigh') {
-    filteredProducts.sort((a, b) => a.price - b.price);
-  } else if (sortBy === 'highToLow') {
-    filteredProducts.sort((a, b) => b.price - a.price);
-  }
-
-  // Loading State
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen bg-[#0f172a] text-white">
-        <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-purple-500 mb-6 shadow-lg shadow-purple-500/20"></div>
-        <p className="text-xl font-bold tracking-widest animate-pulse uppercase text-purple-400">
-          Syncing Inventory...
-        </p>
+      <div className="h-screen w-full flex items-center justify-center bg-[#0f172a]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-[#0f172a] text-red-400">
+        Error: {error}
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white font-sans selection:bg-purple-500/30">
+    <div className="min-h-screen bg-[#0f172a] text-white font-sans">
       
-      {/* 🆕 Sticky Navbar */}
-      <nav className="flex justify-between items-center px-6 py-4 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-50">
+      {/* 💎 Glassmorphic Navbar */}
+      <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/5 border-b border-white/10 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-xl flex items-center justify-center font-black shadow-lg shadow-purple-500/30">
-            P
-          </div>
-          <span className="font-extrabold text-xl tracking-tight hidden sm:block bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-            ProStore
-          </span>
+          <div className="bg-purple-600 p-2 rounded-lg font-bold text-xl w-10 h-10 flex items-center justify-center">P</div>
+          <span className="text-xl font-bold tracking-tight hidden md:block">ProStore</span>
         </div>
-        
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex flex-col items-end mr-2">
-            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter">Verified Dev</p>
-            <p className="text-xs font-bold text-purple-400">Krishna</p>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-gradient-to-b from-purple-600 to-purple-800 flex items-center justify-center text-sm font-bold border-2 border-white/10 shadow-md">
-            K
-          </div>
+          <span className="text-[10px] md:text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full border border-green-500/30 font-medium">
+            Verified Dev: Krishna
+          </span>
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-blue-500 flex items-center justify-center font-bold text-sm shadow-lg border border-white/20">K</div>
         </div>
       </nav>
 
-      {/* Hero Header */}
-      <header className="pt-16 pb-10 px-4 text-center">
-        <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-b from-white via-white to-purple-500/50 bg-clip-text text-transparent italic tracking-tighter">
+      {/* 📂 Hero Section */}
+      <div className="max-w-7xl mx-auto px-6 py-10 text-center">
+        <h1 className="text-4xl md:text-6xl font-black mb-4 italic tracking-tighter bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
           Product Explorer
         </h1>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto font-medium leading-relaxed">
-          Manage and browse your premium inventory with <span className="text-purple-400">real-time analytics</span> and smart sorting.
+        <p className="text-gray-400 mb-10 max-w-lg mx-auto text-sm md:text-base">
+          Manage and browse your premium inventory with <span className="text-purple-400 font-medium">real-time analytics</span> and smart sorting.
         </p>
-      </header>
 
-      {/* Control Panel: Search + Sort */}
-      <section className="max-w-5xl mx-auto px-4 mb-16">
-        <div className="flex flex-col md:flex-row gap-4 items-center bg-[#1e293b]/40 p-3 rounded-[2rem] border border-white/5 backdrop-blur-sm shadow-2xl">
-          <div className="flex-grow w-full">
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          </div>
+        {/* 🛠️ Controls Container */}
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 bg-white/5 p-4 md:p-6 rounded-3xl border border-white/10 backdrop-blur-xl shadow-2xl">
           
-          <div className="relative w-full md:w-auto">
-            <select 
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none bg-[#0f172a] text-gray-300 border border-purple-500/20 rounded-2xl px-10 py-4 outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer w-full md:w-60 hover:border-purple-500/50 transition-all font-bold text-sm tracking-wide shadow-inner"
-            >
-              <option value="default">Sort by Price</option>
-              <option value="lowToHigh">Price: Low to High</option>
-              <option value="highToLow">Price: High to Low</option>
-            </select>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-purple-500">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+          {/* 🔍 Search Input with Clear (X) Button */}
+          <div className="relative w-full max-w-md">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-10 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all placeholder:text-gray-500 text-sm"
+            />
+            <span className="absolute left-4 top-3 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-            </div>
+            </span>
+            
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-3 text-gray-400 hover:text-white transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
           </div>
-        </div>
-      </section>
 
-      {/* Products Grid */}
-      <main className="max-w-7xl mx-auto px-6 pb-32">
+          {/* ⚡ Sort Dropdown */}
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="w-full md:w-48 bg-[#1e293b] border border-white/10 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer text-sm"
+          >
+            <option value="none">Sort by Price</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      {/* 🛒 Grid Section */}
+      <div className="max-w-7xl mx-auto px-6 pb-20">
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id} className="group relative bg-[#1e293b]/40 border border-white/5 rounded-3xl p-5 hover:border-purple-500/40 transition-all duration-300 hover:-translate-y-2 overflow-hidden shadow-xl">
+                <div className="relative h-48 md:h-56 bg-[#0f172a] rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
+                  <img src={product.thumbnail} alt={product.title} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute top-3 right-3 bg-red-500 text-[9px] font-bold px-2 py-1 rounded-lg uppercase tracking-wider">
+                    {Math.round(product.discountPercentage)}% OFF
+                  </div>
+                  <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-lg text-[10px] flex items-center gap-1 border border-white/10">
+                    <span className="text-yellow-400 text-xs">★</span> {product.rating}
+                  </div>
+                </div>
+
+                <h3 className="font-semibold text-base mb-1 text-purple-100 truncate">{product.title}</h3>
+                <div className="flex items-baseline gap-2 mb-3">
+                  <span className="text-xl font-bold text-green-400">${product.price}</span>
+                  <span className="text-[10px] text-gray-500 line-through">${(product.price / (1 - product.discountPercentage/100)).toFixed(2)}</span>
+                </div>
+                
+                <div className="flex gap-2 mt-4">
+                  <button className="flex-1 bg-purple-600 hover:bg-purple-500 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95">
+                    Add to Cart
+                  </button>
+                  <button className="p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all">
+                    👁️
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-32 bg-[#1e293b]/20 rounded-[3rem] border-2 border-dashed border-white/5">
-            <div className="text-8xl mb-6 grayscale opacity-30">🔍</div>
-            <h3 className="text-2xl font-black text-gray-400 tracking-tight">No Items Found</h3>
-            <p className="text-gray-600 mt-2">Try adjusting your search for "{searchTerm}"</p>
+          <div className="text-center py-20 bg-white/5 rounded-3xl border border-dashed border-white/10">
+            <div className="text-5xl mb-4 opacity-50">🔍</div>
+            <h2 className="text-xl font-bold mb-2 text-gray-300">No Items Found</h2>
+            <p className="text-gray-500 text-sm">Try searching for something else like "Beauty".</p>
           </div>
         )}
-      </main>
-
-      {/* Footer */}
-      <footer className="py-12 border-t border-white/5 text-center bg-[#0f172a]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex gap-4 text-gray-500 text-sm font-bold uppercase tracking-widest">
-            <span>Documentation</span>
-            <span>Support</span>
-            <span>API Status</span>
-          </div>
-          <p className="text-gray-600 text-xs">
-            &copy; 2026 Developed by <span className="text-purple-500/80">Krishna</span> | Frontend Developer Intern
-          </p>
-        </div>
-      </footer>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
