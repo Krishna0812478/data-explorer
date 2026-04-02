@@ -1,82 +1,81 @@
 
-#  Interactive Product Explorer
 
-A modern, high-performance **React.js** application that allows users to browse, search, and explore products in real-time. Built with a focus on clean architecture, responsive design, and seamless user experience.
+# 🛒 ProStore - Premium Interactive Product Explorer
 
-##  Live Demo
+A high-performance, modern **React.js** application designed for a seamless e-commerce browsing experience. Built with a focus on clean architecture, glassmorphic UI, and real-time data manipulation.
 
-**Check out the live app here:** [https://data-explorer-five.vercel.app](https://www.google.com/search?q=https://data-explorer-five.vercel.app)
+---
 
------
+## Live Demo & Walkthrough
+** Live App:** [https://data-explorer-five.vercel.app](https://data-explorer-five.vercel.app)  
+** Video Demo:** [Link to Video Demo]
 
-##  Features
+---
 
-  * **Real-time Search:** Instantly filter products as you type using an optimized client-side search logic.
-  * **Fully Responsive:** Designed with a "Mobile-First" approach, ensuring a perfect view on desktops, tablets, and smartphones.
-  * **Modern UI:** Dark-themed, sleek card interface built with **Tailwind CSS v4**.
-  * **State Management:** Efficient handling of API data using **Custom React Hooks** (`useProducts`).
-  * **UX Focused:** Includes loading states and graceful error handling for a smooth user journey.
+## Key Features (The "Pro" Edge)
 
------
+* ** Glassmorphic Navbar:** Sticky top navigation with a personalized user profile ("Welcome, Krishna") and "Verified Dev" status.
+* ** Smart Search Engine:** Instant, real-time product filtering as you type, optimized for performance.
+* ** Advanced Sorting:** Dynamic sorting logic allowing users to toggle between "Price: Low to High" and "Price: High to Low".
+* ** Business Analytics UI:** * **Discount Badges:** Real-time percentage-off calculation displayed on product thumbnails.
+    * **Price Comparisons:** Side-by-side view of original vs. discounted prices.
+    * **Stock Status:** Instant visibility of inventory levels (In Stock / Out of Stock).
+* ** Interactive UX:** * **Add to Cart Logic:** State-driven feedback (Success/Added states) on user interaction.
+    * **Quick View:** Professional "Eye" icon for future modal integration.
+* ** Modern Styling:** Built with **Tailwind CSS v4**, utilizing custom animations, gradients, and a sleek dark-mode aesthetic.
 
-##  Tech Stack
+---
 
-  * **Frontend:** React.js (Vite)
-  * **Styling:** Tailwind CSS v4 (Latest)
-  * **API:** [DummyJSON API](https://dummyjson.com/)
-  * **Deployment:** Vercel
-  * **Version Control:** Git & GitHub
+## Tech Stack
 
------
+* **Frontend:** React.js (Vite)
+* **Styling:** Tailwind CSS v4 (Latest)
+* **Logic:** Custom React Hooks (`useProducts`) for clean API abstraction.
+* **API:** [DummyJSON API](https://dummyjson.com/)
+* **Deployment:** Vercel (CI/CD integrated)
 
-##  Project Structure
+---
+
+## Project Structure
 
 ```text
 src/
- ├── components/       # Reusable UI components (SearchBar, ProductCard)
- ├── hooks/            # Custom logic/API fetching (useProducts)
- ├── App.jsx           # Main application logic
+ ├── components/       # Reusable UI (SearchBar, ProductCard, Navbar)
+ ├── hooks/            # Custom API fetching logic (useProducts.js)
+ ├── App.jsx           # Main Dashboard logic & State Management
  ├── main.jsx          # Entry point
- └── index.css         # Tailwind global styles
+ └── index.css         # Tailwind directives & Global styles
 ```
 
------
+---
 
-##  Setup & Installation
-
-Follow these steps to run the project locally:
+## Setup & Installation
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Krishna0812478/data-explorer.git
+    git clone [https://github.com/Krishna0812478/data-explorer.git](https://github.com/Krishna0812478/data-explorer.git)
     ```
-2.  **Navigate to the project folder:**
-    ```bash
-    cd data-explorer
-    ```
-3.  **Install dependencies:**
+2.  **Install dependencies:**
     ```bash
     npm install
     ```
-4.  **Start the development server:**
+3.  **Start Dev Server:**
     ```bash
     npm run dev
     ```
 
------
+---
 
-##  Architectural Decisions
+## Architectural Decisions
 
-  **Custom Hooks:** Separated the API logic into `useProducts.js` to keep the UI components clean and follow the **DRY (Don't Repeat Yourself)** principle.
-  **Tailwind v4:** Utilized the latest version of Tailwind for faster builds and modern CSS capabilities.
-  **Component-Based:** Each UI element is a standalone component, making the app highly maintainable and scalable.
+* **Separation of Concerns:** Isolated API logic into `useProducts` to ensure the UI stays "dumb" and focus remains on rendering.
+* **User-Centric States:** Integrated specific UIs for **Loading** (Animated Spinners), **Error** (Retry mechanisms), and **Empty States** (No results found).
+* **Responsive Scalability:** Used a Mobile-First approach with Tailwind's grid system to ensure 10/10 layout on all devices.
 
------
+---
 
-##  Author
-
+## Author
 **Krishna**
-
-  * Aspiring Frontend Developer
-* [GitHub Profile](https://github.com/Krishna0812478)
------
+* **Role:** Aspiring Frontend Developer
+* **GitHub:** [@Krishna0812478](https://github.com/Krishna0812478)
+---
